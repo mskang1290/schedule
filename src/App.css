@@ -53,7 +53,8 @@
 }
 
 .modal {
-  position: relative;
+  position: fixed;
+  top:100px;
   z-index: 99;
   width: 100%;
   max-width: 20rem;

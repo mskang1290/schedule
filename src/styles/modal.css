@@ -14,7 +14,9 @@
   }
   
   .modal {
-    position: relative;
+    top: 100px;
+    right: 30vw;
+    position: absolute;
     z-index: 99;
     width: 100%;
     max-width: 20rem;
@@ -35,6 +37,7 @@
   }
   
   .modal-body {
+    top: 300px;
     padding: 1.25rem 1.5rem;
     border-radius: 4px;
     background-color: white;
