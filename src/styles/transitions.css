@@ -1,0 +1,43 @@
+/* Overlay Transitions */
+
+.modal-transition-enter .overlay {
+    opacity: 0;
+  }
+  
+  .modal-transition-enter-active .overlay {
+    opacity: 1;
+    transition: opacity 200ms;
+  }
+  
+  .modal-transition-exit-active .overlay {
+    opacity: 1;
+  }
+  
+  .modal-transition-exit-active .overlay {
+    opacity: 0;
+    transition: opacity 200ms;
+  }
+  
+  /* Modal Transitions */
+  
+  .modal-transition-enter .modal {
+    opacity: 0;
+    transform: scale(0.95) translateY(-30px);
+  }
+  
+  .modal-transition-enter-active .modal {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+    transition: opacity 200ms, transform 200ms;
+  }
+  
+  .modal-transition-exit .modal {
+    opacity: 1;
+  }
+  
+  .modal-transition-exit-active .modal {
+    opacity: 0;
+    transform: scale(0.95) translateY(-30px);
+    transition: opacity 200ms, transform 200ms;
+  }
+  
