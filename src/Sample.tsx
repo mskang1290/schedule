@@ -8,6 +8,7 @@ import "./styles/modal.css";
 import Modal from "./Modal";
 import "./App.css";
 
+// 何の機能か分からない
 const localizer = momentLocalizer(moment);
 // const eventList = [
 // {
@@ -35,13 +36,17 @@ let Atest: Views = {
 };
 
 const Sample = ({ eventList }: { eventList: Array<Event> }) => {
-  
+  console.log(new Date())
   // const {isShowing, toggle} = useModal(false);
   // const [show, setShow] = useState(false)
   //   render() {
   const [showModal, setShowModal] = useState(false);
   const [showEvent, setShowEvent] = useState(false);
   const [event, setEvent] = useState({} as Event);
+const test=()=>{
+
+  return new Date()
+}
 
   useEffect(() => {
     setEvent({})
@@ -49,16 +54,15 @@ const Sample = ({ eventList }: { eventList: Array<Event> }) => {
   return (
     <>
       <div className="App">
-        <button className="button-default" onClick={() => setShowModal(!showModal)}>
-          Show Modal
-        </button>
         <Calendar
-          localizer={localizer}
-          events={eventList}
-          timeslots={2}
-          defaultView={Atest.MONTH}
-          onSelectEvent={(event) => setShowEvent(true)}
-          style={{ height: 500 }}
+          localizer={localizer} //????
+          events={eventList}　//event add
+          // timeslots={2}
+          // defaultView={Atest.MONTH}
+          // onSelectEvent={(event) => setShowEvent(true)}
+          style={{ height: 500 }} //calendarのstyle
+          // getNow={test}
+          // date={new Date(moment().add(1,"day").format())}
         />
       </div>
       <div className="modal">
@@ -71,6 +75,9 @@ const Sample = ({ eventList }: { eventList: Array<Event> }) => {
         event={event}
         setEvent={setEvent}/>
       </div>
+        <button className="button-default" onClick={() => setShowModal(!showModal)}>
+          addTime
+        </button>
     </>
   );
   //   }
