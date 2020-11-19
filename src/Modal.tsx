@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Modal = ({
-  showModal,
   setShowModal,
   eventList,
   showEvent,
@@ -30,7 +29,6 @@ const Modal = ({
   event,
   setEvent,
 }: {
-  showModal: any;
   setShowModal: any;
   eventList: Array<Event>;
   showEvent: boolean;
@@ -39,34 +37,36 @@ const Modal = ({
   setEvent: any;
 }) => {
   const id = showEvent ? event.id : eventList.length;
-  const [title, setTitle] = useState(showEvent ? event.title : "");
-  const [date, setDate]=useState({
-    start:showEvent ? event.start||'' : moment().format("YYYY-MM-DDTHH:mm"),
-    end:showEvent ? event.end||'' : moment().format("YYYY-MM-DDTHH:mm")
-  })
-  const [allDay, setAllDay] = useState(showEvent ? event.allDay : false);
-    console.log(moment().format("YYYY-MM-DDTHH:mm"))
+  const [title, setTitle] = useState(event.title || "");
+  const [date, setDate] = useState({
+    start:
+      moment(event.start).format("YYYY-MM-DDTHH:mm") ||
+      moment().format("YYYY-MM-DDTHH:mm"),
+    end:
+      moment(event.end).format("YYYY-MM-DDTHH:mm") ||
+      moment().format("YYYY-MM-DDTHH:mm"),
+  });
 
-    const test2=(e:any)=>{
-      const {name, value}=e.target
-      console.log(e.target)
-      setDate({...date, [name]:value} )
-    }
+  const [allDay, setAllDay] = useState(showEvent ? event.allDay : false);
+  const test2 = (e: any) => {
+    const { name, value } = e.target;
+    setDate({ ...date, [name]: value });
+  };
 
   const classes = useStyles();
   const test = () => {
-    const addEvent = {
+    const addEvent = ({
       id: id,
       title: title,
-      start: new Date(date.start),
-      end: new Date(date.end),
+      start: new Date(date.start.replace("T", " ")),
+      end: new Date(date.end.replace("T", " ")),
       allDay: allDay,
-      resource:"test1234"
-    } as unknown as Event;
+      resource: "test1234",
+    } as unknown) as Event;
     eventList.push(addEvent);
     setShowModal(false);
     setShowEvent(false);
-    setEvent(null);
+    setEvent({})
   };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,8 +74,7 @@ const Modal = ({
   };
 
   const disabled = showEvent;
-  return showModal || showEvent ? (
-    // ? ReactDOM.createPortal(
+  return (
     <div>
       <div className="overlay" />
       <div className="modal">
@@ -85,7 +84,7 @@ const Modal = ({
           onClick={() => {
             setShowModal(false);
             setShowEvent(false);
-            setEvent({});
+            setEvent({})
           }}
         >
           X
@@ -109,6 +108,7 @@ const Modal = ({
               }}
               onChange={test2}
               value={date.start}
+              disabled={disabled}
             />
             <TextField
               id="datetime-local"
@@ -121,20 +121,18 @@ const Modal = ({
               }}
               onChange={test2}
               value={date.end}
+              disabled={disabled}
             />
           </p>
         </div>
         {!disabled && (
-          <button
-            type="button"
-            onClick={test}
-          >
+          <button type="button" onClick={test}>
             test
           </button>
         )}
       </div>
     </div>
-  ) : null;
+  );
 };
 
 export default Modal;

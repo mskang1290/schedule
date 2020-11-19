@@ -19,49 +19,63 @@ let Atest: Views = {
 };
 
 const Sample = ({ eventList }: { eventList: Array<Event> }) => {
-  console.log(new Date())
   const [showModal, setShowModal] = useState(false);
   const [showEvent, setShowEvent] = useState(false);
-  const [event, setEvent] = useState({} as Event);
-const test=()=>{
-
-  return new Date()
-}
+  const [event, setEvent] = useState({
+    id: undefined,
+    title: "",
+    start: undefined,
+    end: undefined,
+    allDay: false,
+    resource: "",
+  } as Event);
+  const test = () => {
+    return new Date();
+  };
 
   useEffect(() => {
-    setEvent({})
-      },[showEvent])
+    setEvent({});
+  }, [showEvent]);
   return (
     <>
       <div className="App">
         <Calendar
           localizer={localizer} //????
-          events={eventList}　//event add
+          events={eventList} //event add
           // timeslots={2}
           // defaultView={Atest.MONTH}
-          onSelectEvent={(event) => setShowEvent(true)}
+          onSelectEvent={(event: Event) => {
+            setEvent(event);
+            setShowEvent(true);
+          }}
           style={{ height: 500 }} //calendarのstyle
           // getNow={test}
           // date={new Date(moment().add(1,"day").format())}
-          resources={[{name:"test1"},{name:"test2"},{name:"test3"}]}
-          formats={{monthHeaderFormat:'YYYY-MM'}}
+          // resources={[{name:"test1"},{name:"test2"},{name:"test3"}]}
+          formats={{ monthHeaderFormat: "YYYY-MM" }}
         />
       </div>
-      <div className="modal">
-        <Modal 
-        showModal={showModal} 
-        setShowModal={setShowModal} 
-        eventList={eventList} 
-        showEvent={showEvent} 
-        setShowEvent={setShowEvent} 
-        event={event}
-        setEvent={setEvent}/>
-      </div>
-        <button className="button-default" onClick={() => {
-          setEvent({})
-          setShowModal(!showModal)}}>
-          addTime
-        </button>
+      {(showModal || showEvent) && (
+        <div className="modal">
+          <Modal
+            setShowModal={setShowModal}
+            eventList={eventList}
+            showEvent={showEvent}
+            setShowEvent={setShowEvent}
+            event={event}
+            setEvent={setEvent}
+          />
+        </div>
+      )}
+      <button
+        className="button-default"
+        onClick={() => {
+          setEvent({});
+          setShowModal(!showModal);
+        }}
+      >
+        addTime
+      </button>
     </>
   );
 };
