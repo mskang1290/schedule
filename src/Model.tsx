@@ -5,4 +5,5 @@ export class Event {
   start?: string;
   end?: string;
   resource?:string;
+  name?:string;
 }

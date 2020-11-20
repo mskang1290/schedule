@@ -36,8 +36,9 @@ const Modal = ({
   event: Event;
   setEvent: any;
 }) => {
-  const id = showEvent ? event.id : eventList.length;
-  const [title, setTitle] = useState(event.title || "");
+
+  console.log(eventList)
+  const [input, setInput] = useState({title:event.title || "", name:event.name || ""});
   const [date, setDate] = useState({
     start:
       moment(event.start).format("YYYY-MM-DDTHH:mm") ||
@@ -54,23 +55,39 @@ const Modal = ({
   };
 
   const classes = useStyles();
-  const test = () => {
-    const addEvent = ({
-      id: id,
-      title: title,
+  const addEvent = () => {
+    let id=-1;
+    let idCheckFL=false;
+    eventList.forEach((event)=>{
+    if(!idCheckFL){
+        if(event.name===input.name&&(typeof event.id!=="undefined")){
+        id=event.id;
+        idCheckFL=true;
+      }else{
+        if(typeof event.id!=="undefined"&&id<event.id){
+          id=event.id
+        }
+      }
+    }
+    })
+
+    const event = ({
+      id: idCheckFL?id:id+1,
+      title: input.title,
       start: new Date(date.start.replace("T", " ")),
       end: new Date(date.end.replace("T", " ")),
       allDay: allDay,
       resource: "test1234",
+      name:input.name
     } as unknown) as Event;
-    eventList.push(addEvent);
+    eventList.push(event);
     setShowModal(false);
     setShowEvent(false);
     setEvent({})
   };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+    setInput({...input, [event.target.name]:event.target.value});
   };
 
   const disabled = showEvent;
@@ -91,10 +108,20 @@ const Modal = ({
         </button>
         <div className="modal-body">
           <p>
+            <label>title : </label>
             <input
               name="title"
               onChange={onChange}
-              value={title}
+              value={input.title}
+              disabled={disabled}
+            />
+            </p>
+            <p>
+            <label>name : </label>
+            <input
+              name="name"
+              onChange={onChange}
+              value={input.name}
               disabled={disabled}
             />
             <TextField
@@ -126,7 +153,7 @@ const Modal = ({
           </p>
         </div>
         {!disabled && (
-          <button type="button" onClick={test}>
+          <button type="button" onClick={addEvent}>
             test
           </button>
         )}
