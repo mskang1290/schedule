@@ -1,25 +1,33 @@
-import React,{useEffect, useState} from "react";
+import React,{useEffect} from "react";
 import "./App.css";
 import Sample from "./Sample";
 import { Event } from "./Model";
 import axios from "axios";
+import moment from "moment";
 
 function App() {
-  const [data, setData]=useState([]);
-  useEffect(() => {
-    axios
-      .get("/api/test")
-      .then(({ data }) =>{ 
-        console.log(data)
-        setData(data)
-      }).catch(({reason})=>{
-        console.log(reason)
 
+  let eventList = [
+  ] as Array<Event>;
+
+  useEffect(() => {
+  const f = async () => {
+    console.log('side effect!');
+    await axios
+      .get("http://localhost:5000/api/getEvent")
+      .then(({ data }) =>{ 
+        data.forEach((event: Event)=>{
+          event.start=new Date(moment(event.start).format("YYYY-MM-DD HH:mm:ss"))
+          event.end=new Date(moment(event.end).format("YYYY-MM-DD HH:mm:ss"))
+          event.allDay=false
+          Object.assign(eventList, data)
+        })
+      }).catch(({reason})=>{
       });
+    };
+    f();
   }, []);
 
-  const eventList = [
-  ] as Array<Event>;
   return (
     <div>
         <div className="App">

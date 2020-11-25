@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Event } from "./Model";
 import "react-nice-dates/build/style.css";
+import axios from "axios";
 
 import "./styles/modal.css";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
@@ -70,7 +71,9 @@ const Modal = ({
       }
     }
     })
-
+console.log("111111111111111111111111")
+console.log(eventList)
+console.log("111111111111111111111111")
     const event = ({
       id: idCheckFL?id:id+1,
       title: input.title,
@@ -81,8 +84,43 @@ const Modal = ({
       name:input.name
     } as unknown) as Event;
     eventList.push(event);
+    console.log("22222222222222222222")
+    console.log(eventList)
+    console.log("22222222222222222222222")
     setShowModal(false);
     setShowEvent(false);
+    
+  // useEffect(() => {
+  //   const f = async () => {
+  //     console.log('side effect!');
+  //     await axios
+  //       .post("http://localhost:5000/api/addEvent")
+  //       .then(({ data }) =>{ 
+  //         console.log("data")
+  //         console.log(data)
+  //         console.log("data")
+  //         data.forEach((event: Event)=>{
+  //           // event.start=event.start&&event.start.replace("T", " ")
+  //           // event.end=event.end&&event.end.replace("T", " ")
+  //           // event.start=event.start&&event.start.replace("Z", "")
+  //           // event.end=event.end&&event.end.replace("Z", "")
+  //           event.start=new Date(moment(event.start).format("YYYY-MM-DD HH:mm"))
+  //           event.end=new Date(moment(event.end).format("YYYY-MM-DD HH:mm"))
+  //           event.allDay=false
+  //           // eventList=eventList.concat(data)
+  //           console.log(event)
+  //           Object.assign(eventList, data)
+  //         })
+  //         // eventList=data.slice()
+  //         console.log(data)
+  //         console.log(eventList)
+  //       }).catch(({reason})=>{
+  //         console.log(reason)
+  //       });
+  //       // renderFL=true;
+  //     };
+  //     f();
+  //   }, []);
     setEvent({})
   };
 

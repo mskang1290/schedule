@@ -2,8 +2,8 @@ export class Event {
   id?: number;
   title?: string;
   allDay?: boolean;
-  start?: string;
-  end?: string;
+  start?: Date;
+  end?: Date;
   resource?:string;
   name?:string;
 }

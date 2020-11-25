@@ -6,8 +6,8 @@ const db = require('./config/db');
 app.get('/api/host', (req, res) => {
     res.send({ host : 'json clear' });
 })
-app.get('/api/test', (req, res) => {
-    db.query("select * from AOT_USER", (err, data) => {
+app.get('/api/getEvent', (req, res) => {
+    db.query("select * from events", (err, data) => {
         if(!err) {
             res.send(data);
 
