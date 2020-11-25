@@ -9,7 +9,7 @@ function App() {
 
   let eventList = [
   ] as Array<Event>;
-
+  let flag=false;
   useEffect(() => {
   const f = async () => {
     console.log('side effect!');
@@ -24,10 +24,14 @@ function App() {
         })
       }).catch(({reason})=>{
       });
+      flag=true;
     };
     f();
+    
   }, []);
 
+  // if(!flag) return null;
+  
   return (
     <div>
         <div className="App">
