@@ -1,0 +1,22 @@
+
+npm i --save @types/axios
+
+npm install --save cors
+
+npm install --save --legacy-peer-deps @material-ui/core
+
+npm install
+
+npm install -g react-scripts
+
+npm install nodemon -g
+
+npm install nodemon concurrently --save-dev
+
+npm install mysql
+
+npm run build
+
+npm run dev
+
+npm run start
