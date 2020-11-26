@@ -6,4 +6,5 @@ export class Event {
   end?: Date;
   resource?:string;
   name?:string;
+  alldays?:number;
 }

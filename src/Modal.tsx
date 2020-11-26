@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Event } from "./Model";
 import "react-nice-dates/build/style.css";
 import axios from "axios";
@@ -7,6 +7,10 @@ import "./styles/modal.css";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import moment from "moment";
+import Const from "./const/const";
+import Api from "./api/api";
+
+const api_url = Const.localhost;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -29,6 +33,7 @@ const Modal = ({
   setShowEvent,
   event,
   setEvent,
+  refetch,
 }: {
   setShowModal: any;
   eventList: Array<Event>;
@@ -36,10 +41,12 @@ const Modal = ({
   setShowEvent: any;
   event: Event;
   setEvent: any;
+  refetch: any;
 }) => {
-
-  console.log(eventList)
-  const [input, setInput] = useState({title:event.title || "", name:event.name || ""});
+  const [input, setInput] = useState({
+    title: event.title || "",
+    name: event.name || "",
+  });
   const [date, setDate] = useState({
     start:
       moment(event.start).format("YYYY-MM-DDTHH:mm") ||
@@ -50,93 +57,106 @@ const Modal = ({
   });
 
   const [allDay, setAllDay] = useState(showEvent ? event.allDay : false);
+
   const test2 = (e: any) => {
     const { name, value } = e.target;
+
+    if (name === "start") {
+      new Date(value);
+    }
+
     setDate({ ...date, [name]: value });
   };
 
   const classes = useStyles();
   const addEvent = async () => {
-    if(!input.title||!input.name) {
-      alert("title, nameを入力してください")
+    if (!input.title || !input.name) {
+      alert("title, nameを入力してください");
       return;
     }
-    let id=-1;
-    let idCheckFL=false;
-    eventList.forEach((event)=>{
-    if(!idCheckFL){
-        if(event.name===input.name&&(typeof event.id!=="undefined")){
-        id=event.id;
-        idCheckFL=true;
-      }else{
-        if(typeof event.id!=="undefined"&&id<event.id){
-          id=event.id
+    let id = -1;
+    let idCheckFL = false;
+    eventList.forEach((event) => {
+      if (!idCheckFL) {
+        if (event.name === input.name && typeof event.id !== "undefined") {
+          id = event.id;
+          idCheckFL = true;
+        } else {
+          if (typeof event.id !== "undefined" && id < event.id) {
+            id = event.id;
+          }
         }
       }
-    }
-    })
-console.log("111111111111111111111111")
-console.log(eventList)
-console.log("111111111111111111111111")
+    });
+
     const event = ({
-      id: idCheckFL?id:id+1,
+      id: idCheckFL ? id : id + 1,
       title: input.title,
       start: new Date(date.start.replace("T", " ")),
       end: new Date(date.end.replace("T", " ")),
       allDay: allDay,
       resource: "test1234",
-      name:input.name
+      name: input.name,
     } as unknown) as Event;
     eventList.push(event);
-    console.log("22222222222222222222")
-    console.log(eventList)
-    console.log("22222222222222222222222")
+
     setShowModal(false);
     setShowEvent(false);
-    
-    await axios('http://localhost:5000/add/data', {
-      method : 'POST',
-      data : event,
-      headers: new Headers()
-    })
-  // useEffect(() => {
-  //   const f = async () => {
-  //     console.log('side effect!');
-  //     await axios
-  //       .post("http://localhost:5000/api/addEvent")
-  //       .then(({ data }) =>{ 
-  //         console.log("data")
-  //         console.log(data)
-  //         console.log("data")
-  //         data.forEach((event: Event)=>{
-  //           // event.start=event.start&&event.start.replace("T", " ")
-  //           // event.end=event.end&&event.end.replace("T", " ")
-  //           // event.start=event.start&&event.start.replace("Z", "")
-  //           // event.end=event.end&&event.end.replace("Z", "")
-  //           event.start=new Date(moment(event.start).format("YYYY-MM-DD HH:mm"))
-  //           event.end=new Date(moment(event.end).format("YYYY-MM-DD HH:mm"))
-  //           event.allDay=false
-  //           // eventList=eventList.concat(data)
-  //           console.log(event)
-  //           Object.assign(eventList, data)
-  //         })
-  //         // eventList=data.slice()
-  //         console.log(data)
-  //         console.log(eventList)
-  //       }).catch(({reason})=>{
-  //         console.log(reason)
-  //       });
-  //       // renderFL=true;
-  //     };
-  //     f();
-  //   }, []);
-    setEvent({})
+
+    await axios(api_url + Const.api.addEvent, {
+      method: "POST",
+      data: event,
+      headers: new Headers(),
+    });
+    setEvent({});
+  };
+  const updateEvent = async () => {
+    if (!input.title || !input.name) {
+      alert("title, nameを入力してください");
+      return;
+    }
+
+    if (input === event) {
+      alert("変更内容がありません。");
+      return;
+    }
+    let id = -1;
+    let idCheckFL = false;
+    eventList.forEach((event) => {
+      if (!idCheckFL) {
+        if (event.name === input.name && typeof event.id !== "undefined") {
+          id = event.id;
+          idCheckFL = true;
+        } else {
+          if (typeof event.id !== "undefined" && id < event.id) {
+            id = event.id;
+          }
+        }
+      }
+    });
+
+    const param = ({
+      id: idCheckFL ? id : id + 1,
+      title: input.title,
+      start: new Date(date.start.replace("T", " ")),
+      end: new Date(date.end.replace("T", " ")),
+      allDay: allDay,
+      resource: "test1234",
+      name: input.name,
+    } as unknown) as Event;
+    eventList.push(param);
+
+    setShowModal(false);
+    setShowEvent(false);
+
+    await Api.post(Const.api.addEvent, param);
+
+    refetch();
+    setEvent({});
   };
 
-  
-
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInput({...input, [event.target.name]:event.target.value});
+    setInput({ ...input, [event.target.name]: event.target.value });
   };
 
   const disabled = showEvent;
@@ -150,12 +170,21 @@ console.log("111111111111111111111111")
           onClick={() => {
             setShowModal(false);
             setShowEvent(false);
-            setEvent({})
+            setEvent({});
           }}
         >
           X
         </button>
         <div className="modal-body">
+          <p>
+            <label>name : </label>
+            <input
+              name="name"
+              onChange={onChange}
+              value={input.name}
+              disabled={disabled}
+            />
+          </p>
           <p>
             <label>title : </label>
             <input
@@ -164,15 +193,8 @@ console.log("111111111111111111111111")
               value={input.title}
               disabled={disabled}
             />
-            </p>
-            <p>
-            <label>name : </label>
-            <input
-              name="name"
-              onChange={onChange}
-              value={input.name}
-              disabled={disabled}
-            />
+          </p>
+          <p>
             <TextField
               id="datetime-local"
               label="Next appointment"
@@ -201,9 +223,13 @@ console.log("111111111111111111111111")
             />
           </p>
         </div>
-        {!disabled && (
+        {!disabled ? (
           <button type="button" onClick={addEvent}>
-            test
+            登録
+          </button>
+        ) : (
+          <button type="button" onClick={updateEvent}>
+            変更
           </button>
         )}
       </div>

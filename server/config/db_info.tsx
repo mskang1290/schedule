@@ -1,6 +1,6 @@
 const mysql = require('mysql');
 
-const db = mysql.createPool({
+const db_info = mysql.createPool({
     "host": "database-1.c8ilxl9ubtzj.ap-northeast-1.rds.amazonaws.com",
     "user": "admin",
     "password": "antjd1212",
@@ -8,4 +8,4 @@ const db = mysql.createPool({
     "database": "management"
 });
 
-module.exports = db;
+module.exports = db_info;
