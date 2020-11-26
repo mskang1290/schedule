@@ -56,7 +56,7 @@ const Modal = ({
   };
 
   const classes = useStyles();
-  const addEvent = () => {
+  const addEvent = async () => {
     let id=-1;
     let idCheckFL=false;
     eventList.forEach((event)=>{
@@ -90,6 +90,11 @@ console.log("111111111111111111111111")
     setShowModal(false);
     setShowEvent(false);
     
+    await axios('http://localhost:5000/add/data', {
+      method : 'POST',
+      data : event,
+      headers: new Headers()
+    })
   // useEffect(() => {
   //   const f = async () => {
   //     console.log('side effect!');
@@ -123,6 +128,8 @@ console.log("111111111111111111111111")
   //   }, []);
     setEvent({})
   };
+
+  
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInput({...input, [event.target.name]:event.target.value});
