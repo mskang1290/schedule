@@ -17,6 +17,9 @@ const Api = {
       headers: new Headers(),
     }).then(({ data }) => {
       console.log(data);
+    }).catch(({reason})=>{
+      console.log(reason);
+      //TODO rollback処理
     });
   },
 };
