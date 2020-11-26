@@ -3,6 +3,7 @@ const Const = {
   api: {
     getEvent: "/api/getEvent",
     addEvent: "/api/addEvent",
+    updateEvent: "/api/updateEvent",
   },
 };
 export default Const;

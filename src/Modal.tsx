@@ -9,6 +9,7 @@ import TextField from "@material-ui/core/TextField";
 import moment from "moment";
 import Const from "./const/const";
 import Api from "./api/api";
+import { Checkbox } from "@material-ui/core";
 
 const api_url = Const.localhost;
 
@@ -43,17 +44,24 @@ const Modal = ({
   setEvent: any;
   refetch: any;
 }) => {
+  let eventOrg = {} as Event;
+  Object.assign(eventOrg, event);
+  const disabled = showEvent;
+
   const [input, setInput] = useState({
-    title: event.title || "",
+    title: "",
+    // title: event.title || "",
     name: event.name || "",
   });
   const [date, setDate] = useState({
     start:
-      moment(event.start).format("YYYY-MM-DDTHH:mm") ||
-      moment().format("YYYY-MM-DDTHH:mm"),
+      // moment(event.start).format("YYYY-MM-DDTHH:mm") ||
+      // moment().format("YYYY-MM-DDTHH:mm"):
+      "",
     end:
-      moment(event.end).format("YYYY-MM-DDTHH:mm") ||
-      moment().format("YYYY-MM-DDTHH:mm"),
+      // moment(event.end).format("YYYY-MM-DDTHH:mm") ||
+      // moment().format("YYYY-MM-DDTHH:mm"),
+      "",
   });
 
   const [allDay, setAllDay] = useState(showEvent ? event.allDay : false);
@@ -74,27 +82,12 @@ const Modal = ({
       alert("title, nameを入力してください");
       return;
     }
-    let id = -1;
-    let idCheckFL = false;
-    eventList.forEach((event) => {
-      if (!idCheckFL) {
-        if (event.name === input.name && typeof event.id !== "undefined") {
-          id = event.id;
-          idCheckFL = true;
-        } else {
-          if (typeof event.id !== "undefined" && id < event.id) {
-            id = event.id;
-          }
-        }
-      }
-    });
 
     const event = ({
-      id: idCheckFL ? id : id + 1,
       title: input.title,
       start: new Date(date.start.replace("T", " ")),
       end: new Date(date.end.replace("T", " ")),
-      allDay: allDay,
+      allDay: allDay ? 1 : 0,
       resource: "test1234",
       name: input.name,
     } as unknown) as Event;
@@ -107,49 +100,30 @@ const Modal = ({
       method: "POST",
       data: event,
       headers: new Headers(),
-    });
+    })
+      .then(({ data }) => {
+        console.log(data);
+      })
+      .catch(({ reason }) => {
+        console.log(reason);
+      });
     setEvent({});
   };
   const updateEvent = async () => {
-    if (!input.title || !input.name) {
-      alert("title, nameを入力してください");
-      return;
-    }
-
-    if (input === event) {
-      alert("変更内容がありません。");
-      return;
-    }
-    let id = -1;
-    let idCheckFL = false;
-    eventList.forEach((event) => {
-      if (!idCheckFL) {
-        if (event.name === input.name && typeof event.id !== "undefined") {
-          id = event.id;
-          idCheckFL = true;
-        } else {
-          if (typeof event.id !== "undefined" && id < event.id) {
-            id = event.id;
-          }
-        }
-      }
-    });
-
-    const param = ({
-      id: idCheckFL ? id : id + 1,
+    let param = {
+      id: event.id,
       title: input.title,
       start: new Date(date.start.replace("T", " ")),
       end: new Date(date.end.replace("T", " ")),
       allDay: allDay,
-      resource: "test1234",
-      name: input.name,
-    } as unknown) as Event;
-    eventList.push(param);
+    } as Event;
+
+    eventList.push(event);
 
     setShowModal(false);
     setShowEvent(false);
 
-    await Api.post(Const.api.addEvent, param);
+    await Api.post(Const.api.updateEvent, param);
 
     refetch();
     setEvent({});
@@ -159,7 +133,6 @@ const Modal = ({
     setInput({ ...input, [event.target.name]: event.target.value });
   };
 
-  const disabled = showEvent;
   return (
     <div>
       <div className="overlay" />
@@ -190,8 +163,7 @@ const Modal = ({
             <input
               name="title"
               onChange={onChange}
-              value={input.title}
-              disabled={disabled}
+              defaultValue={event.title}
             />
           </p>
           <p>
@@ -205,8 +177,11 @@ const Modal = ({
                 shrink: true,
               }}
               onChange={test2}
-              value={date.start}
-              disabled={disabled}
+              defaultValue={
+                disabled
+                  ? moment(event.start).format("YYYY-MM-DDTHH:mm")
+                  : moment().format("YYYY-MM-DDTHH:mm")
+              }
             />
             <TextField
               id="datetime-local"
@@ -218,10 +193,18 @@ const Modal = ({
                 shrink: true,
               }}
               onChange={test2}
-              value={date.end}
-              disabled={disabled}
+              defaultValue={
+                disabled
+                  ? moment(event.end).format("YYYY-MM-DDTHH:mm")
+                  : moment().format("YYYY-MM-DDTHH:mm")
+              }
             />
           </p>
+          <Checkbox
+            onChange={(e) => setAllDay(e.target.checked)}
+            checked={disabled ? allDay : undefined}
+          />
+          allDay
         </div>
         {!disabled ? (
           <button type="button" onClick={addEvent}>

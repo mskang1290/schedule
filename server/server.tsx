@@ -23,9 +23,7 @@ app.get("/api/getEvent", (req, res) => {
 
 app.post("/api/addEvent", (req, res) => {
   db.query(
-    "insert into events (id, name, title, start, end) values (" +
-      req.body.id +
-      ",'" +
+    "insert into events (name, title, start, end, allDay) values ('" +
       req.body.name +
       "','" +
       req.body.title +
@@ -33,6 +31,8 @@ app.post("/api/addEvent", (req, res) => {
       req.body.start +
       "','" +
       req.body.end +
+      "','" +
+      req.body.allDay +
       "')",
     (err, data) => {
       if (!err) {
@@ -42,6 +42,25 @@ app.post("/api/addEvent", (req, res) => {
       }
     }
   );
+});
+
+app.post("/api/updateEvent", (req, res) => {
+  console.log(req.body);
+  let query = "update events set ";
+
+  Object.keys(req.body).forEach((value, index) => {
+    if (value === "id" || (value !== "allDay" && !req.body[value])) return;
+    query += value + "= '" + req.body[value] + "',";
+  });
+  query.substr(0, query.length - 1);
+  query = query.substr(0, query.length - 1) + " where id=" + req.body.id;
+  db.query(query, (err, data) => {
+    if (!err) {
+      res.send(data);
+    } else {
+      res.send(err);
+    }
+  });
 });
 
 app.listen(PORT, () => {

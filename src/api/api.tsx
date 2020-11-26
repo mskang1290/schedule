@@ -18,6 +18,8 @@ const Api = {
       method: "POST",
       data: param,
       headers: new Headers(),
+    }).then(({ data }) => {
+      console.log(data);
     });
   },
 };
