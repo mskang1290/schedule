@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
-import Sample from "./Sample";
-import { Event } from "./Model";
+import Sample from "./component/Sample";
+import { Event } from "./model/Model";
 
 function App() {
   const [eventList, setEventList] = useState([] as Array<Event>);

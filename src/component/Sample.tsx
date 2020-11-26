@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { Calendar, momentLocalizer, Views } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { Event } from "./Model";
+import { Event } from "../model/Model";
 import "./styles/modal.css";
 import Modal from "./Modal";
 import "./App.css";
-import Api from "./api/api";
+import Api from "../api/api";
 
 // 何の機能か分からない
 const localizer = momentLocalizer(moment);
