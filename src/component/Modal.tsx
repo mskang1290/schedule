@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Event } from "./Model";
+import { Event } from "../model/Model";
 import "react-nice-dates/build/style.css";
 import axios from "axios";
 
@@ -7,8 +7,8 @@ import "./styles/modal.css";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import moment from "moment";
-import Const from "./const/const";
-import Api from "./api/api";
+import Const from "../const/const";
+import Api from "../api/api";
 import { Checkbox } from "@material-ui/core";
 
 const api_url = Const.localhost;
