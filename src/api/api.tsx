@@ -1,8 +1,5 @@
 import axios from "axios";
 import Const from "../const/const";
-import { Event } from "../Model";
-import moment from "moment";
-
 import useAxios from "axios-hooks";
 
 let api_url = Const.localhost;

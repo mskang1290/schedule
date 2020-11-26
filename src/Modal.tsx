@@ -50,29 +50,23 @@ const Modal = ({
 
   const [input, setInput] = useState({
     title: "",
-    // title: event.title || "",
     name: event.name || "",
   });
   const [date, setDate] = useState({
     start:
       // moment(event.start).format("YYYY-MM-DDTHH:mm") ||
       // moment().format("YYYY-MM-DDTHH:mm"):
-      "",
+      disabled ? "" : moment().format("YYYY-MM-DDTHH:mm"),
     end:
       // moment(event.end).format("YYYY-MM-DDTHH:mm") ||
       // moment().format("YYYY-MM-DDTHH:mm"),
-      "",
+      disabled ? "" : moment().format("YYYY-MM-DDTHH:mm"),
   });
 
   const [allDay, setAllDay] = useState(showEvent ? event.allDay : false);
 
   const test2 = (e: any) => {
     const { name, value } = e.target;
-
-    if (name === "start") {
-      new Date(value);
-    }
-
     setDate({ ...date, [name]: value });
   };
 
@@ -107,7 +101,7 @@ const Modal = ({
       .catch(({ reason }) => {
         console.log(reason);
       });
-    setEvent({});
+    refetch();
   };
   const updateEvent = async () => {
     let param = {
