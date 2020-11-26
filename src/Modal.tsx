@@ -57,6 +57,10 @@ const Modal = ({
 
   const classes = useStyles();
   const addEvent = async () => {
+    if(!input.title||!input.name) {
+      alert("title, nameを入力してください")
+      return;
+    }
     let id=-1;
     let idCheckFL=false;
     eventList.forEach((event)=>{

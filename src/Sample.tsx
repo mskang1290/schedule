@@ -19,7 +19,7 @@ let Atest: Views = {
   AGENDA: "agenda",
 };
 
-const Sample = ({ eventList }: { eventList: Array<Event> }) => {
+const Sample = ({ eventList, setEventList }: { eventList: Array<Event>, setEventList:any }) => {
   // useEffect(() => {
     // fetch("http://localhost:5000/api/getEvent")
     //   .then(res => res.json())
@@ -78,6 +78,30 @@ const Sample = ({ eventList }: { eventList: Array<Event> }) => {
   //   };
   //   f();
   // }, []);
+  useEffect(() => {
+  const f = async () => {
+    console.log("side effect!");
+    await axios
+      .get("http://localhost:5000/api/getEvent")
+      .then(({ data }) => {
+        data.forEach((event: Event) => {
+          event.start = new Date(
+            moment(event.start).format("YYYY-MM-DD HH:mm:ss")
+          );
+          event.end = new Date(moment(event.end).format("YYYY-MM-DD HH:mm:ss"));
+          event.allDay = false;
+          setEventList(data)
+          // Object.assign(eventList, data);
+        });
+      })
+      .catch(({ reason }) => {});
+    console.log("app");
+    console.log(eventList);
+    console.log("app");
+    // setTestFL(true);
+  };
+  f();
+  }, []);
   console.log("sample")
   console.log(eventList)
   console.log("sample")
