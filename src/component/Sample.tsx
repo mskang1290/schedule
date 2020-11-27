@@ -41,6 +41,7 @@ const Sample = ({
 
   if (!!data) {
     console.log("data")
+    console.log(data)
     data.forEach((value: Event) => {
       value.allDay = !!value.allDay;
       value.start = new Date(moment(value.start).format("YYYY-MM-DD HH:mm:ss"));
