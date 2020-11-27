@@ -34,6 +34,7 @@ const Sample = ({
 
   if (!!error) {
     alert(error.message);
+    return <div>error</div>
   }
 
   if (loading) return <p>Loading...</p>;
