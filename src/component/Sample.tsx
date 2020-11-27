@@ -39,9 +39,7 @@ const Sample = ({
 
   if (loading) return <p>Loading...</p>;
 
-  if (!!data) {
-    console.log("data")
-    console.log(data)
+  if (data.length>0) {
     data.forEach((value: Event) => {
       value.allDay = !!value.allDay;
       value.start = new Date(moment(value.start).format("YYYY-MM-DD HH:mm:ss"));

@@ -143,7 +143,6 @@ checkBrowsers(paths.appPath, isInteractive)
       openBrowser(urls.localUrlForBrowser);
     });
 
-    console.log("start")
     ['SIGINT', 'SIGTERM'].forEach(function (sig) {
       process.on(sig, function () {
         devServer.close();
