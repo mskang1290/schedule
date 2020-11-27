@@ -112,7 +112,7 @@ const Modal = ({
       allDay: allDay,
     } as Event;
 
-    eventList.push(event);
+    // eventList.push(event);
 
     setShowModal(false);
     setShowEvent(false);

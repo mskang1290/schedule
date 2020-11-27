@@ -53,13 +53,12 @@ app.post("/api/updateEvent", (req, res) => {
   //   console.log(req.body);
   let query = "update events set ";
 
-  Object.keys(req.body).forEach((value, index) => {
+  Object.keys(req.body).forEach((value) => {
     if (value === "id" || (value !== "allDay" && !req.body[value])) return;
     query += value + "= '";
     if (value === "start" || value === "end") {
       query += moment(req.body[value]).tz("Asia/Tokyo").format() + "',";
-    }
-    query += req.body[value] + "',";
+    } else query += req.body[value] + "',";
   });
   query.substr(0, query.length - 1);
   query = query.substr(0, query.length - 1) + " where id=" + req.body.id;
