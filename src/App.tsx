@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./App.css";
+import "./component/App.css";
 import Sample from "./component/Sample";
 import { Event } from "./model/Model";
 

@@ -3,7 +3,7 @@ import { Event } from "../model/Model";
 import "react-nice-dates/build/style.css";
 import axios from "axios";
 
-import "./styles/modal.css";
+import "../styles/modal.css";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import moment from "moment";

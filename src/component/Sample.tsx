@@ -3,7 +3,7 @@ import { Calendar, momentLocalizer, Views } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { Event } from "../model/Model";
-import "./styles/modal.css";
+import "../styles/modal.css";
 import Modal from "./Modal";
 import "./App.css";
 import Api from "../api/api";
