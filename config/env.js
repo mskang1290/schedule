@@ -31,6 +31,7 @@ const dotenvFiles = [
 // https://github.com/motdotla/dotenv
 // https://github.com/motdotla/dotenv-expand
 dotenvFiles.forEach(dotenvFile => {
+  console.log("evn")
   if (fs.existsSync(dotenvFile)) {
     require('dotenv-expand')(
       require('dotenv').config({
