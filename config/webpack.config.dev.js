@@ -138,7 +138,7 @@ module.exports = {
         port: 5000, // 혹은 자신이 설정한 포트번호
         open: true,
         proxy: {
-            "/": "http://localhost"
+            "/": "https://development.d8zccqq3gmtke.amplifyapp.com/"
         }
     },
     plugins: [
