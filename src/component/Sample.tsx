@@ -38,14 +38,14 @@ const Sample = ({
 
   if (loading) return <p>Loading...</p>;
 
-  // if (!!data) {
-  //   data.forEach((value: Event) => {
-  //     value.allDay = !!value.allDay;
-  //     value.start = new Date(moment(value.start).format("YYYY-MM-DD HH:mm:ss"));
-  //     value.end = new Date(moment(value.end).format("YYYY-MM-DD HH:mm:ss"));
-  //   });
-  //   setEventList(data);
-  // }
+  if (!!data) {
+    data.forEach((value: Event) => {
+      value.allDay = !!value.allDay;
+      value.start = new Date(moment(value.start).format("YYYY-MM-DD HH:mm:ss"));
+      value.end = new Date(moment(value.end).format("YYYY-MM-DD HH:mm:ss"));
+    });
+    setEventList(data);
+  }
 
   return (
     <>

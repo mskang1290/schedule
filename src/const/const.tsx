@@ -1,5 +1,5 @@
 const Const = {
-  localhost: "https://development.d8zccqq3gmtke.amplifyapp.com",
+  localhost: "http://localhost:5000",
   api: {
     getEvent: "/api/getEvent",
     addEvent: "/api/addEvent",
