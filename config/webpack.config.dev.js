@@ -139,7 +139,8 @@ module.exports = {
         open: true,
         proxy: {
             // "/": "database-1.c8ilxl9ubtzj.ap-northeast-1.rds.amazonaws.com"
-            "/": "http://localhost:5000/"
+            "/": "172.31.0.0/16"
+            // "/": "http://localhost:5000/"
             // "/": "https://development.d8zccqq3gmtke.amplifyapp.com"
         }
     },

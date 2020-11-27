@@ -71,5 +71,5 @@ app.post("/api/updateEvent", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server On : http://localhost:${PORT}/`);
+  console.log(`Server On : 172.31.0.0/16`);
 });
