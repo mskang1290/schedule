@@ -38,7 +38,6 @@ app.post("/api/addEvent", (req, res) => {
     "','" +
     req.body.allDay +
     "')";
-
   //   console.log(query);
   db.query(query, (err, data) => {
     if (!err) {

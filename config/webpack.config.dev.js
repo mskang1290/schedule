@@ -138,7 +138,9 @@ module.exports = {
         port: 5000, // 혹은 자신이 설정한 포트번호
         open: true,
         proxy: {
-            "/": "https://development.d8zccqq3gmtke.amplifyapp.com"
+            // "/": "database-1.c8ilxl9ubtzj.ap-northeast-1.rds.amazonaws.com"
+            "/": "http://localhost:5000/"
+            // "/": "https://development.d8zccqq3gmtke.amplifyapp.com"
         }
     },
     plugins: [
